@@ -1,4 +1,86 @@
-<html>
-<h1>Voice Likability Survey</h1>
-<p>This website contains a short survey whose objective is to evaluate voice likability.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Voice Likability Survey</h1>
+    <p>This website contains a short survey whose objective is to evaluate voice likability.</p>
+    <form id="surveyForm">
+        <table>
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Question 1: How satisfied are you with our service?</td>
+                    <td><input type="radio" name="q1" value="1"></td>
+                    <td><input type="radio" name="q1" value="2"></td>
+                    <td><input type="radio" name="q1" value="3"></td>
+                    <td><input type="radio" name="q1" value="4"></td>
+                </tr>
+                <tr>
+                    <td>Question 2: How likely are you to recommend us to a friend?</td>
+                    <td><input type="radio" name="q2" value="1"></td>
+                    <td><input type="radio" name="q2" value="2"></td>
+                    <td><input type="radio" name="q2" value="3"></td>
+                    <td><input type="radio" name="q2" value="4"></td>
+                </tr>
+                <tr>
+                    <td>Question 3: How would you rate our product quality?</td>
+                    <td><input type="radio" name="q3" value="1"></td>
+                    <td><input type="radio" name="q3" value="2"></td>
+                    <td><input type="radio" name="q3" value="3"></td>
+                    <td><input type="radio" name="q3" value="4"></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('surveyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const answers = {
+                q1: formData.get('q1'),
+                q2: formData.get('q2'),
+                q3: formData.get('q3')
+            };
+
+            const csvContent = `Question 1,Question 2,Question 3\n${answers.q1},${answers.q2},${answers.q3}`;
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'survey_results.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
 </html>
